@@ -13,17 +13,14 @@
 #include "../includes/scheduler_RR.h"
 //override base class behaviour if necessary, otherwise call it
 bool  Scheduler_RR::time_to_switch_processes(int tick_count, PCB &p) {
-	if (preemptive) {
-		if (time_slice == tick_count) {
-			return true;
-		}
+	if((p.required_cpu_time-p.remaining_cpu_time) % time_slice ==0){
+		return true;
 	}
-	else if (p.remaining_cpu_time == 0) {
+	if (p.remaining_cpu_time <= 0) {
 		return true;
 	}
 	return false;
 }
-
 void Scheduler_RR::sort() {
 
 }
